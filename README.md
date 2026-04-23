@@ -40,7 +40,7 @@
  - [개요](#개요)
  - [사용법](#사용법)
  - [Github 폴더 구조](#-GitHub-폴더-구조)
- - [Tech Stack](#Tech-Stack)
+ - [Tech Stack](#-Tech-Stack)
  - [ERD](#ERD)
  - [데이터 출처 및 활용 현황](#데이터-출처-및-활용-현황)
  - [팀원 회고](#팀원-회고)
