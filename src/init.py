@@ -1,1 +1,1 @@
-# init.py
+# init.py >> streamlit 공통 컴포넌트
