@@ -57,35 +57,35 @@
 
 
 ---
-## 📁 GitHub 폴더 구조
+##  GitHub 폴더 구조
 ```bash
 SKN31-1st-4Team/
-├── 📄 README.md
-├── 📄 main.py
-├── 📄 requirement.txt
+├──  README.md
+├──  main.py
+├──  requirement.txt
 │
-├── 📁 assets/
-│   ├── 🎨 app.css
-│   ├── 🎨 style.css
-│   ├── 📁 images/
-│   │   └── 🖼️ dummy.png
-│   └── 📁 pages/
-│       ├── 🐍 01_Market_Price.py
-│       └── 🐍 02_My_Car.py
+├──  assets/
+│   ├──  app.css
+│   ├──  style.css
+│   ├──  images/
+│   │   └──  dummy.png
+│   └──  pages/
+│       ├──  01_Market_Price.py
+│       └──  02_My_Car.py
 │
-├── 📁 images/
-│   ├── 🖼️ Gani.png
-│   ├── 🖼️ Rani.png
-│   ├── 🖼️ Rogi.png
-│   └── 🖼️ Tayo.png
+├──  images/
+│   ├──  Gani.png
+│   ├──  Rani.png
+│   ├──  Rogi.png
+│   └──  Tayo.png
 │
-└── 📁 src/
-    ├── 🐍 data_processor.py
-    ├── 🐍 init.py
-    ├── 🐍 utils.py
-    └── 📁 csv/
-        ├── 📊 carku_cars_fixed.csv
-        └── 📊 encar_cars_v2.csv
+└──  src/
+    ├──  data_processor.py
+    ├──  init.py
+    ├──  utils.py
+    └──  csv/
+        ├──  carku_cars_fixed.csv
+        └──  encar_cars_v2.csv
 
 
 
