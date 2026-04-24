@@ -8,10 +8,10 @@
 
 <table align="center">
   <tr>
-    <td align="center" width="190px"><img src="" width="100" style="object-fit: contain; aspect-ratio: 1/1;"></td>
-    <td align="center" width="190px"><img src="" width="100" style="object-fit: contain; aspect-ratio: 1/1;"></td>
-    <td align="center" width="190px"><img src=""width="100" style="object-fit: contain; aspect-ratio: 1/1;"></td>
-    <td align="center" width="190px"><img src="" width="100" style="object-fit: contain; aspect-ratio: 1/1;"></td>
+    <td align="center" width="190px"><img src="./images/Tayo.png" width="100" style="object-fit: contain; aspect-ratio: 1/1;"></td>
+    <td align="center" width="190px"><img src="./images/Rani.png" width="100" style="object-fit: contain; aspect-ratio: 1/1;"></td>
+    <td align="center" width="190px"><img src="./images/Gani.png"width="100" style="object-fit: contain; aspect-ratio: 1/1;"></td>
+    <td align="center" width="190px"><img src="./images/Rogi.png" width="100" style="object-fit: contain; aspect-ratio: 1/1;"></td>
   </tr>
   <tr>
     <td align="center"><b>안혁진</b></td>
