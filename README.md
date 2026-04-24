@@ -77,6 +77,8 @@ PROJECT_1/
       <strong>Backend</strong><br/><br/>
       <img src="https://img.shields.io/badge/Python-4B8BBE?style=for-the-badge&logo=Python&logoColor=white" alt="Python"/>
       <img src="https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=Jupyter&logoColor=white" alt="Jupyter"/>
+      <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=Pandas&logoColor=white" alt="Pandas"/>
+      <img src="https://img.shields.io/badge/Numpy-4D77CF?style=for-the-badge&logo=numpy&logoColor=white" alt="numpy"/>
     </td>
     <td align="center" width="220">
       <strong>Data</strong><br/><br/>
