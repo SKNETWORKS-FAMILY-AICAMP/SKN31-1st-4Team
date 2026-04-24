@@ -1,4 +1,4 @@
-# 📚대제목 / 프로젝트 주제
+# "합리적인 중고차 구매를 위한 가격 분석 시스템"
 
 ## ⭐️ 팀 구성
 <div align="center">
@@ -46,7 +46,7 @@
  - [팀원 회고](#팀원-회고)
 ---
 ## 개요
-> ..
+> "중고차 시장 데이터를 수집·분석하여 차량의 평균 시세, 가격 범위, 자차 견적을 제공하고, 사용자가 합리적인 가격으로 거래할 수 있도록 돕는 데이터 기반 플랫폼"
 ---
 ## 사용법
 
@@ -59,9 +59,35 @@
 ---
 ## 📁 GitHub 폴더 구조
 ```bash
-PROJECT_1/
+SKN31-1st-4Team/
+├── 📄 README.md
+├── 📄 main.py
+├── 📄 requirement.txt
+│
+├── 📁 assets/
+│   ├── 🎨 app.css
+│   ├── 🎨 style.css
+│   ├── 📁 images/
+│   │   └── 🖼️ dummy.png
+│   └── 📁 pages/
+│       ├── 🐍 01_Market_Price.py
+│       └── 🐍 02_My_Car.py
+│
+├── 📁 images/
+│   ├── 🖼️ Gani.png
+│   ├── 🖼️ Rani.png
+│   ├── 🖼️ Rogi.png
+│   └── 🖼️ Tayo.png
+│
+└── 📁 src/
+    ├── 🐍 data_processor.py
+    ├── 🐍 init.py
+    ├── 🐍 utils.py
+    └── 📁 csv/
+        ├── 📊 carku_cars_fixed.csv
+        └── 📊 encar_cars_v2.csv
 
-├── ...
+
 
 ```
 
