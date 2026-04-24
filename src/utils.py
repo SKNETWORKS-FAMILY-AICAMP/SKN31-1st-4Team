@@ -1,1 +1,1 @@
-# utils.py
+# utils.py >> DB/테이블 초기화 + CSV 적재
