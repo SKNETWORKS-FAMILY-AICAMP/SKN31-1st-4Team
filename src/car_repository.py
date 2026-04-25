@@ -70,6 +70,7 @@ def get_cars(brand_list, fuel_list, accident, price_min, price_max,
 # ─────────────────────────────────────────────────────────────
 # [시세 조회 페이지] 검색 결과 건수
 # ─────────────────────────────────────────────────────────────
+# 검색 결과 건수 표시 & 페이지 수 계산 streamlit 1페이지에서 사용하려고 카운트합니다.
 def count_cars(brand_list, fuel_list, accident, price_min, price_max,
                mileage_max, year_min, year_max):
     conn   = mysql.connector.connect(**DB_CONFIG)
