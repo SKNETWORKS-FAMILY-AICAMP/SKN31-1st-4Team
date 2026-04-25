@@ -1,5 +1,5 @@
 # DB_init.py 
-# 최초 1회만 실행 → DB 생성 + 테이블 생성 + CSV 데이터 적재
+# 최초 1회만 실행 / DB 생성 + 테이블 생성 + CSV 데이터 적재
 
 import mysql.connector
 import pandas as pd
