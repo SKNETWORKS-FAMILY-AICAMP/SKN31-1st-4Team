@@ -1,289 +1,138 @@
+# 01_Market_Price.py
+# 시세 조회 페이지 - DB 연동 버전
+
 import streamlit as st
+import sys
+import os
 
-# ─────────────────────────────────────────
-# 페이지 설정
-# ─────────────────────────────────────────
-st.set_page_config(
-    page_title="중고차 시세 조회",
-    page_icon="🚗",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../src"))
 
+from car_repository import get_cars, count_cars, get_brands, get_fuel_types, get_summary_stats
+from data_processor  import build_filter_summary, cars_to_dataframe
+from utils           import load_css, render_car_cards, render_pagination, render_metrics, fmt_price
 
-# ─────────────────────────────────────────
-# CSS style 호출
-# ─────────────────────────────────────────
+# ── 페이지 설정 ───────────────────────────────────────────────
+st.set_page_config(page_title="중고차 시세 조회", page_icon="🚗", layout="wide")
+load_css("assets/app.css")
 
-with open("assets/app.css", encoding="utf-8") as f:
-    style = f.read()
+PAGE_SIZE = 9   # 한 페이지에 카드 9개 (3열 × 3행)
 
-st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
+# ── 필터 변경 시 페이지 초기화 ────────────────────────────────
+if "page" not in st.session_state:
+    st.session_state["page"] = 0
 
-# ─────────────────────────────────────────
-# 데이터 정의
-# ─────────────────────────────────────────
-DOMESTIC_BRANDS = ["현대", "제네시스", "기아", "쉐보레(GM대우)", "르노코리아(삼성)", "KG모빌리티(쌍용)"]
-IMPORT_BRANDS   = ["벤츠", "BMW", "아우디", "폭스바겐", "미니쿠퍼"]
-CAR_TYPES       = ["경차", "소형차", "준중형차", "중형차", "대형차", "스포츠카", "SUV"]
-FUEL_TYPES      = ["경유", "휘발유", "LPG", "전기"]
-YEARS           = list(range(2003, 2027))   # 2003 ~ 2026
+# ── DB에서 필터 목록 가져오기 ─────────────────────────────────
+all_brands = get_brands()
+all_fuels  = get_fuel_types()
 
-# 샘플 데이터 (실제 연동 시 DB / API 교체)
-SAMPLE_DATA = [
-    {"brand": "현대", "model": "아반떼 CN7", "type": "준중형차", "fuel": "휘발유",
-     "price": 1850, "year": 2021, "mileage": 42000, "accident": False},
-    {"brand": "기아",  "model": "K5 3세대",   "type": "중형차",   "fuel": "휘발유",
-     "price": 2200, "year": 2022, "mileage": 31000, "accident": False},
-    {"brand": "현대", "model": "투싼 NX4",    "type": "SUV",      "fuel": "경유",
-     "price": 2650, "year": 2022, "mileage": 55000, "accident": True},
-    {"brand": "BMW",  "model": "3시리즈 (G20)", "type": "중형차",  "fuel": "휘발유",
-     "price": 4300, "year": 2020, "mileage": 67000, "accident": False},
-    {"brand": "벤츠", "model": "E클래스 W213", "type": "대형차",   "fuel": "휘발유",
-     "price": 5100, "year": 2019, "mileage": 82000, "accident": True},
-    {"brand": "기아",  "model": "EV6 GT",      "type": "중형차",   "fuel": "전기",
-     "price": 3900, "year": 2023, "mileage": 18000, "accident": False},
-    {"brand": "현대", "model": "아이오닉6",    "type": "중형차",   "fuel": "전기",
-     "price": 3400, "year": 2023, "mileage": 22000, "accident": False},
-    {"brand": "쉐보레(GM대우)", "model": "트레일블레이저", "type": "SUV", "fuel": "휘발유",
-     "price": 1950, "year": 2021, "mileage": 49000, "accident": False},
-    {"brand": "아우디", "model": "A6 C8",      "type": "대형차",   "fuel": "경유",
-     "price": 4800, "year": 2020, "mileage": 71000, "accident": False},
-    {"brand": "제네시스", "model": "G80 3세대","type": "대형차",   "fuel": "휘발유",
-     "price": 4500, "year": 2021, "mileage": 38000, "accident": False},
-    {"brand": "르노코리아(삼성)", "model": "QM6", "type": "SUV",  "fuel": "LPG",
-     "price": 1600, "year": 2019, "mileage": 93000, "accident": True},
-    {"brand": "미니쿠퍼", "model": "쿠퍼 S",  "type": "소형차",   "fuel": "휘발유",
-     "price": 2700, "year": 2020, "mileage": 44000, "accident": False},
-]
-
-
-# ─────────────────────────────────────────
-# 사이드바 – 검색 필터
-# ─────────────────────────────────────────
+# ── 사이드바 필터 ─────────────────────────────────────────────
 with st.sidebar:
-
-    # ── 제조사 ──────────────────────────────
-    st.markdown("<div class='section-header'>제조사 <span style='font-size:0.65rem;color:#7b82a8;'>(중복선택 가능)</span></div>",
-                unsafe_allow_html=True)
-
-  # 브랜드별 이미지
-    brands_img = {"아우디":"logos-brand-audi.png", "쉐보레" : "logos-brand-chevrolet.png", "BMW" : "logos-brand-bmw. png", 
-                  "벤츠" : "logos-brand-benz.png","현대": "logos-brand-hyundai.png","기아": "logos-brand-kia.png",
-                   "미니쿠퍼" :"logos-brand-mini.png","폭스바겐" : "logos-brand-volkswagen.png", "르노" : "logos-brand-renault.svg",
-                   "KG모빌리티": "logos-brand-kgm.svg","제네시스":"logos-brand-genesis.png" }
-
-    # 국산
-    st.markdown("<div class='brand-group-label'>🇰🇷 국산</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>🏭 제조사</div>", unsafe_allow_html=True)
     selected_brands = []
-    dom_cols = st.columns(2)
-    
-    for i, brand in enumerate(DOMESTIC_BRANDS):  
-        with dom_cols[i % 2]:
-            if st.checkbox(brand, key=f"brand_{brand}"):
-                selected_brands.append(brand)
+    for brand in all_brands:
+        if st.checkbox(brand, key=f"brand_{brand}"):
+            selected_brands.append(brand)
 
-    # 수입
-    st.markdown("<div class='brand-group-label' style='margin-top:0.8rem;'>🌍 수입</div>",
-                unsafe_allow_html=True)
-    imp_cols = st.columns(2)
-    for i, brand in enumerate(IMPORT_BRANDS):
-        with imp_cols[i % 2]:
-            if st.checkbox(brand, key=f"brand_{brand}"):
-                selected_brands.append(brand)
-
-    # ── 차종 ──────────────────────────────
-    st.markdown("<div class='section-header'>차종 <span style='font-size:0.65rem;color:#7b82a8;'>(중복선택 가능)</span></div>",
-                unsafe_allow_html=True)
-    selected_types = []
-    cols = st.columns(2)
-    for i, ct in enumerate(CAR_TYPES):
-        with cols[i % 2]:
-            if st.checkbox(ct, key=f"type_{ct}"):
-                selected_types.append(ct)
-
-    # ── 가격 슬라이더 ───────────────────────
-    st.markdown("<div class='section-header'>가격</div>", unsafe_allow_html=True)
-    price_range = st.slider(
-        label="가격 범위 (만원)",
-        min_value=500,
-        max_value=10000,
-        value=(500, 10000),
-        step=500,
-        label_visibility="collapsed",
-    )
-    st.markdown(
-        f"<span class='slider-value'>💰 {price_range[0]:,}만원 ~ {price_range[1]:,}만원</span>",
-        unsafe_allow_html=True,
-    )
-
-    # ── 연료 ──────────────────────────────
-    st.markdown("<div class='section-header'>연료</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>⛽ 연료</div>", unsafe_allow_html=True)
     selected_fuels = []
-    fcols = st.columns(2)
-    for i, ft in enumerate(FUEL_TYPES):
-        with fcols[i % 2]:
-            if st.checkbox(ft, key=f"fuel_{ft}"):
-                selected_fuels.append(ft)
+    for fuel in all_fuels:
+        if st.checkbox(fuel, key=f"fuel_{fuel}"):
+            selected_fuels.append(fuel)
 
-    # ── 사고 유무 ──────────────────────────
-    st.markdown("<div class='section-header'>사고 유무</div>", unsafe_allow_html=True)
-    accident_option = st.radio(
-        label="사고 유무 선택",
-        options=["전체", "사고 X", "사고 O"],
-        index=0,
-        label_visibility="collapsed",
-        horizontal=True,
+    st.markdown("<div class='section-header'>💰 시세 범위</div>", unsafe_allow_html=True)
+    price_range = st.slider(
+        "시세(만원)", min_value=0, max_value=10000,
+        value=(0, 10000), step=100, label_visibility="collapsed"
     )
 
-    # ── 주행거리 슬라이더 ───────────────────
-    st.markdown("<div class='section-header'>주행거리</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>🛣️ 최대 주행거리</div>", unsafe_allow_html=True)
     mileage_max = st.slider(
-        label="최대 주행거리 (km)",
-        min_value=10000,
-        max_value=200000,
-        value=200000,
-        step=10000,
-        label_visibility="collapsed",
-    )
-    st.markdown(
-        f"<span class='slider-value'>🛣️ {mileage_max:,} km 이하</span>",
-        unsafe_allow_html=True,
+        "주행거리(km)", min_value=0, max_value=200000,
+        value=200000, step=5000, label_visibility="collapsed"
     )
 
-    # ── 연식 ──────────────────────────────
-    st.markdown("<div class='section-header'>연식</div>", unsafe_allow_html=True)
-    year_range = st.select_slider(
-        label="연식 범위",
-        options=YEARS,
-        value=(YEARS[0], YEARS[-1]),
-        label_visibility="collapsed",
-    )
-    st.markdown(
-        f"<span class='slider-value'>📅 {year_range[0]}년 ~ {year_range[1]}년</span>",
-        unsafe_allow_html=True,
+    st.markdown("<div class='section-header'>📅 연식</div>", unsafe_allow_html=True)
+    year_range = st.slider(
+        "연식", min_value=2011, max_value=2025,
+        value=(2011, 2025), step=1, label_visibility="collapsed"
     )
 
+    st.markdown("<div class='section-header'>🔧 사고 여부</div>", unsafe_allow_html=True)
+    accident = st.radio(
+        "사고 여부", ["전체", "사고 X", "사고 O"],
+        horizontal=True, label_visibility="collapsed"
+    )
 
-# ─────────────────────────────────────────
-# 메인 영역
-# ─────────────────────────────────────────
+    # 필터 변경 시 페이지 0으로 리셋
+    if st.button("🔄 필터 초기화", use_container_width=True):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
 
-# 현재 페이지 상태 확인 (예: 쿼리 파라미터 기준)
-current_page = st.query_params.get("page", "url1")
-
-# 메뉴 출력
-st.markdown(f"""
-<div class="nav-container">
-    <a href="/?page=url1" target="_self" class="nav-item {'active' if current_page == 'url1' else ''}">
-        <div class='main-title'>🚗 중고차 시세 조회
-        <div class='main-subtitle'>원하는 조건을 선택하고 매물을 찾아보세요</div>
-        </div>
-    </a>
-    <a href="/?page=url2" target="_self" class="nav-item {'active' if current_page == 'url2' else ''}">
-        <div class='main-title'>🚗 내 차 시세
-        <div class='main-subtitle'>내 차 시세를 비교 견적해 보세요</div></div>
-    </a>
-</div>
-""", unsafe_allow_html=True)
-
-
-
- 
-# ── 필터 요약 ────────────────────────────
-filter_parts = []
-if selected_brands:
-    filter_parts.append(f"브랜드: {', '.join(selected_brands)}")
-if selected_types:
-    filter_parts.append(f"차종: {', '.join(selected_types)}")
-filter_parts.append(f"가격: {price_range[0]:,}~{price_range[1]:,}만원")
-if selected_fuels:
-    filter_parts.append(f"연료: {', '.join(selected_fuels)}")
-if accident_option != "전체":
-    filter_parts.append(f"사고: {accident_option}")
-filter_parts.append(f"주행: {mileage_max:,}km 이하")
-filter_parts.append(f"연식: {year_range[0]}~{year_range[1]}년")
-
-st.markdown(
-    f"<div class='filter-summary'>🔎 적용 필터 &nbsp;|&nbsp; "
-    + " &nbsp;&middot;&nbsp; ".join(filter_parts) + "</div>",
-    unsafe_allow_html=True,
+# ── 공통 필터 파라미터 ────────────────────────────────────────
+filter_params = dict(
+    brand_list  = selected_brands or None,
+    fuel_list   = selected_fuels  or None,
+    accident    = accident,
+    price_min   = price_range[0],
+    price_max   = price_range[1],
+    mileage_max = mileage_max,
+    year_min    = year_range[0],
+    year_max    = year_range[1],
 )
 
-# ── 필터링 로직 ──────────────────────────
-def apply_filters(data):
-    results = []
-    for car in data:
-        if selected_brands and car["brand"] not in selected_brands:
-            continue
-        if selected_types and car["type"] not in selected_types:
-            continue
-        if not (price_range[0] <= car["price"] <= price_range[1]):
-            continue
-        if selected_fuels and car["fuel"] not in selected_fuels:
-            continue
-        if accident_option == "사고X" and car["accident"]:
-            continue
-        if accident_option == "사고O" and not car["accident"]:
-            continue
-        if car["mileage"] > mileage_max:
-            continue
-        if not (year_range[0] <= car["year"] <= year_range[1]):
-            continue
-        results.append(car)
-    return results
+# ── 상단 요약 통계 ────────────────────────────────────────────
+stats = get_summary_stats()
+render_metrics([
+    ("전체 매물",   f"{stats.get('total_cars', 0):,}건"),
+    ("평균 시세",   fmt_price(stats.get("avg_price"))),
+    ("최신 연식",   f"{stats.get('newest_year', '-')}년"),
+    ("제조사 수",   f"{stats.get('brand_count', 0)}개"),
+])
 
-filtered = apply_filters(SAMPLE_DATA)
+st.divider()
 
-# ── 결과 표시 ────────────────────────────
-col_info, col_sort = st.columns([3, 1])
-with col_info:
-    st.markdown(f"#### 검색 결과 &nbsp; <span style='color:#e05c3a;font-size:1.1rem;'>{len(filtered)}건</span>",
-                unsafe_allow_html=True)
+# ── 필터 요약 바 ──────────────────────────────────────────────
+st.markdown(
+    build_filter_summary(
+        selected_brands, selected_fuels, accident,
+        price_range[0], price_range[1],
+        mileage_max, year_range[0], year_range[1]
+    ),
+    unsafe_allow_html=True
+)
+
+# ── 정렬 + 결과 건수 ─────────────────────────────────────────
+col_title, col_sort = st.columns([3, 1])
 with col_sort:
-    sort_by = st.selectbox(
-        "정렬",
-        options=["가격 낮은순", "가격 높은순", "연식 최신순", "주행거리 낮은순"],
-        label_visibility="collapsed",
+    sort_label = st.selectbox(
+        "정렬", ["가격 낮은순", "가격 높은순", "연식 최신순", "주행거리 낮은순"],
+        label_visibility="collapsed"
     )
 
-# 정렬
-sort_map = {
-    "가격 낮은순":     lambda c: c["price"],
-    "가격 높은순":     lambda c: -c["price"],
-    "연식 최신순":     lambda c: -c["year"],
-    "주행거리 낮은순": lambda c: c["mileage"],
-}
-filtered.sort(key=sort_map[sort_by])
+total = count_cars(**filter_params)
 
-if not filtered:
-    st.info("🚫 조건에 맞는 매물이 없습니다.")
-else:
-    # 3열 카드 레이아웃
-    for i in range(0, len(filtered), 3):
-        row_cars = filtered[i:i+3]
-        cols = st.columns(3)
-        for col, car in zip(cols, row_cars):
-            with col:
-                acc_badge = (
-                    "<span class='badge badge-acc-n'>사고X</span>"
-                    if not car["accident"]
-                    else "<span class='badge badge-acc-y'>사고O</span>"
-                )
-                st.markdown(f"""
-<div class='result-card'>
-  <div class='car-name'>{car['brand']} {car['model']}</div>
-  <div class='car-price' style='margin:0.4rem 0;'>{car['price']:,}만원</div>
-  <div style='margin-bottom:0.5rem;'>
-    <span class='badge badge-type'>{car['type']}</span>
-    <span class='badge badge-fuel'>{car['fuel']}</span>
-    {acc_badge}
-  </div>
-  <div class='car-detail'>
-    📅 {car['year']}년형 &nbsp;|&nbsp; 🛣️ {car['mileage']:,}km
-  </div>
-</div>
-""", unsafe_allow_html=True)
+with col_title:
+    st.markdown(
+        f"#### 검색 결과 &nbsp;"
+        f"<span style='color:#e05c3a; font-size:1.1rem;'>{total:,}건</span>",
+        unsafe_allow_html=True
+    )
 
+# ── DB 조회 ───────────────────────────────────────────────────
+page = render_pagination(total=total, page_size=PAGE_SIZE)
 
-  
+cars = get_cars(
+    **filter_params,
+    sort = sort_label,
+)
+
+# 현재 페이지 슬라이싱 (DB 쪽에 LIMIT/OFFSET 없이 Python 슬라이싱)
+paged_cars = cars[page * PAGE_SIZE: (page + 1) * PAGE_SIZE]
+
+# ── 카드 렌더링 ───────────────────────────────────────────────
+render_car_cards(paged_cars, columns=3)
+
+# ── 테이블 뷰 (토글) ──────────────────────────────────────────
+with st.expander("📋 표로 보기"):
+    st.dataframe(cars_to_dataframe(cars), use_container_width=True)
