@@ -9,7 +9,7 @@ conn = mysql.connector.connect(
     host=" ", # IP(host) 입력
     port=" ", # port번호 입력
     user=" ", # username 입력
-    password=" ", # MySQL 비밀번호로 변경
+    password=" ", # MySQL 비밀번호 입력
     charset="utf8mb4" # 이모지 지원 UTF-8 Most Bytes 4로 설정
 )
 cursor = conn.cursor()
