@@ -18,7 +18,7 @@ secrets.toml
 .streamlit/
 
 # README png
-./images/Gani.png
-./images/Rani.png
-./images/Rogi.png
-./images/Tayo.png
+images/Gani.png
+images/Rani.png
+images/Rogi.png
+images/Tayo.png
