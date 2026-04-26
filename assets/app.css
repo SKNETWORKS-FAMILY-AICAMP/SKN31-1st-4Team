@@ -140,3 +140,17 @@ div[data-testid="stButton"] > button:hover {
 .nav-item:hover { color:rgb(255, 75, 75); }
 .active { color: rgb(255, 75, 75); font-weight: bold; border-bottom: 5px solid rgb(255, 75, 75) }
 .nav-container > a { text-decoration-line: none; }
+
+/* 메인 화면 메뉴카드 */
+.menu-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.15s;
+    cursor: pointer;
+}
+.menu-card:hover { border-color: #aaa; }
+.menu-icon { width: 44px; height: 44px; border-radius: 8px; font-size: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+.menu-title { font-size: 16px; font-weight: 600; color: #1a1a1a; margin: 0 0 6px; }
+.menu-desc { font-size: 13px; color: #666; line-height: 1.6; margin: 0; }
