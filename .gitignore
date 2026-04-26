@@ -16,3 +16,9 @@ secrets.toml
 
 # Streamlit 캐시
 .streamlit/
+
+# README png
+./images/Gani.png
+./images/Rani.png
+./images/Rogi.png
+./images/Tayo.png
