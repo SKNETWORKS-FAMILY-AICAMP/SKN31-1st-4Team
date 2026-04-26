@@ -1,1 +1,3 @@
-test
+streamlit
+mysql-connector-python
+pandas
