@@ -9,6 +9,7 @@ import streamlit as st
 DB_CONFIG = {
     "host":     "192.168.0.30", # IP(host) 입력
     "user":     "playdata", # username 입력
+    "port": 3306,
     "password": "1111", # MySQL 비밀번호 입력 
     "database": "used_car_db",
     "charset":  "utf8mb4"
