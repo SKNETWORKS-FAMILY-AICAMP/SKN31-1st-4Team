@@ -1,13 +1,13 @@
 # car_repository.py
 # MySQL에서 데이터를 가져오는 메소드 모음
 
-import pymysql.connections as pmsc
+import pymysql
 import streamlit as st
 
 # ── 공통 접속 정보 ────────────────────────────────────────────
 # config 정보 딕셔너리로 묶어서 호출 편리성 강화
 DB_CONFIG = {
-    "host":     "192.168.0.30", # IP(host) 입력
+    "host":     "192.168.0.20", # IP(host) 입력
     "user":     "playdata", # username 입력
     "port": 3306,
     "password": "1111", # MySQL 비밀번호 입력 
@@ -19,8 +19,8 @@ DB_CONFIG = {
 # ─────────────────────────────────────────────────────────────
 def get_cars(brand_list, fuel_list, accident, price_min, price_max,
              mileage_max, year_min, year_max, sort):
-    conn   = pmsc.Connection(**DB_CONFIG) # 생성해둔 딕셔너리 Key : value 로 펼쳐서 접속
-    cursor = conn.cursor(dictionary=True)
+    conn   = pymysql.connect(**DB_CONFIG) # 생성해둔 딕셔너리 Key : value 로 펼쳐서 접속
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
 
     sql    = "SELECT * FROM cars WHERE avg_price BETWEEN %s AND %s"
     params = [price_min, price_max]
@@ -74,7 +74,7 @@ def get_cars(brand_list, fuel_list, accident, price_min, price_max,
 # 검색 결과 건수 표시 & 페이지 수 계산 streamlit 1페이지에서 사용하려고 카운트합니다.
 def count_cars(brand_list, fuel_list, accident, price_min, price_max,
                mileage_max, year_min, year_max):
-    conn   = pmsc.Connection(**DB_CONFIG)
+    conn   = pymysql.connect(**DB_CONFIG)
     cursor = conn.cursor()
 
     sql    = "SELECT COUNT(*) FROM cars WHERE avg_price BETWEEN %s AND %s"
@@ -112,8 +112,8 @@ def count_cars(brand_list, fuel_list, accident, price_min, price_max,
 # [내 차 시세 페이지] 제조사+모델명 키워드 검색
 # ─────────────────────────────────────────────────────────────
 def search_my_car(brand, model_keyword):
-    conn   = pmsc.Connection(**DB_CONFIG)
-    cursor = conn.cursor(dictionary=True)
+    conn   = pymysql.connect(**DB_CONFIG)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
 
     sql    = "SELECT * FROM cars WHERE brand = %s AND model LIKE %s ORDER BY year DESC" # 연식 내림차순 / LIKE = 패턴 문자열 검색해주는 연산자.
     cursor.execute(sql, (brand, f"%{model_keyword}%")) # 브랜드 & 모델명은 키워드로 검색.
@@ -128,8 +128,8 @@ def search_my_car(brand, model_keyword):
 # ─────────────────────────────────────────────────────────────
 # 사용자가 입력한 브랜드 + 모델명(키워드로 추적) 데이터베이스에서 비교해서 일치하는 조건의 차량들 평균시세 조회해서 등록하려는 가격과 비교 + 총 몇대가 검색되었는지 COUNT값 검색결과로 표시.
 def get_price_stats(brand, model_keyword):
-    conn   = pmsc.Connection(**DB_CONFIG)
-    cursor = conn.cursor(dictionary=True)
+    conn   = pymysql.connect(**DB_CONFIG)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
 
     sql = """ 
         SELECT
@@ -151,7 +151,7 @@ def get_price_stats(brand, model_keyword):
 # [공통] 제조사 목록 (사이드바 체크박스용)
 # ─────────────────────────────────────────────────────────────
 def get_brands():
-    conn   = pmsc.Connection(**DB_CONFIG)
+    conn   = pymysql.connect(**DB_CONFIG)
     cursor = conn.cursor()
 
     cursor.execute("SELECT DISTINCT brand FROM cars ORDER BY brand")
@@ -166,7 +166,7 @@ def get_brands():
 # [공통] 연료 종류 목록 (사이드바 체크박스용)
 # ─────────────────────────────────────────────────────────────
 def get_fuel_types():
-    conn   = pmsc.Connection(**DB_CONFIG)
+    conn   = pymysql.connect(**DB_CONFIG)
     cursor = conn.cursor()
 
     cursor.execute("SELECT DISTINCT fuel FROM cars WHERE fuel IS NOT NULL ORDER BY fuel")
@@ -181,8 +181,8 @@ def get_fuel_types():
 # [공통] 전체 요약 통계 (총 매물 수, 평균 시세, 최신 연식)
 # ─────────────────────────────────────────────────────────────
 def get_summary_stats():
-    conn   = pmsc.Connection(**DB_CONFIG)
-    cursor = conn.cursor(dictionary=True)
+    conn   = pymysql.connect(**DB_CONFIG)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
 
 # total_cars= 총 매물, avg_price= 평균 시세, newest_year= 최신 연식, brand_count= 브랜드 갯수
     cursor.execute("""

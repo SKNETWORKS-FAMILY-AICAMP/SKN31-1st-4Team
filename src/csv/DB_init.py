@@ -1,12 +1,12 @@
 # DB_init.py 
 # 최초 1회만 실행 / DB 생성 + 테이블 생성 + CSV 데이터 적재
 
-import pymysql.connections as pmsc
+import pymysql
 import pandas as pd
 
 # ── DB 접속 정보 ──────────────────────────────────────────────
-conn = pmsc.Connection(
-    host="192.168.0.30", # IP(host) 입력
+conn = pymysql.connect(
+    host="192.168.0.20", # IP(host) 입력
     port=3306, # port번호 입력
     user="playdata", # username 입력
     password="1111", # MySQL 비밀번호 입력
