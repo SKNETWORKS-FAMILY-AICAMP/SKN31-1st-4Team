@@ -25,7 +25,7 @@ st.markdown("""
     <div class="menu-card">
       <div class="menu-icon" style="background: #E1F5EE;">🚗</div>
       <p class="menu-title">찜 목록 조회</p>
-      <p class="menu-desc">저장한 중고차 매물의 목록을 보여줍니다</p>
+      <p class="menu-desc">저장한 중고차의 목록을<br>저장한 순서대로 보여줍니다</p>
     </div>
   </a>
             
