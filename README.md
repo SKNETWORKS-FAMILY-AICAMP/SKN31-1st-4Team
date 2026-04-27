@@ -1,4 +1,4 @@
-# 📚대제목 / 프로젝트 주제
+# 📚중고차 정밀 시세 조회 및 자차 견적 서비스 🚘🚗
 
 ## ⭐️ 팀 구성
 <div align="center">
@@ -20,10 +20,10 @@
     <td align="center"><b>김가율</b></td>
   </tr>
   <tr>
-    <td align="center"><sub><b>PM</b></sub></td>
-    <td align="center"><sub><b>STREAMLIT</b></sub></td>
-    <td align="center"><sub><b>DATASET</b></sub></td>
-    <td align="center"><sub><b>CRAWLING</b></sub></td>
+    <td align="center"><sub><b>PM</br>METHOD ENGINEERING</br>HTML</b></sub></td>
+    <td align="center"><sub><b>STREAMLIT</br>DATABASE</br>HTML</b></sub></td>
+    <td align="center"><sub><b>DATA CRAWLING</br>DATABASE</b></sub></td>
+    <td align="center"><sub><b>DATA CRAWLING</br>STREAMLIT</b></sub></td>
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/Jinxxxok"><img src="https://img.shields.io/badge/Jinxxxok-181717?style=for-the-badge&logo=github&logoColor=white"></a></td>
@@ -46,47 +46,54 @@
  - [팀원 회고](#팀원-회고)
 ---
 ## 개요
-> ..
+> <font size="3">중고차 시장 데이터를 수집·분석하여 차량의 평균 시세, 가격 범위, 자차 견적을 제공하고, \
+사용자가 합리적인 가격으로 거래할 수 있도록 돕는 데이터 기반 플랫폼</font>
+
 ---
 ## 사용법
 
-..
+terminal에서 실행 후
+>pip install ./requirement.txt
 
-### 소제목
-..
+실행환경에서 실행
+> streamlit run main.py 실행
 
 
 ---
 ## 📁 GitHub 폴더 구조
+
+```
 SKN31-1st-4Team/
-├── README.md
-├── main.py                                 # main STREAMLIT실행파일
-├── requirement.txt                         # 구성 써드파티 모듈 파일
+├── README.md  
+├── main.py                           # 메인 streamlit 구동 파일
+├── requirement.txt                   # 써드파티 모듈 환경설정 파일
 ├── .gitignore
 │
 ├── assets/
-│   ├── app.css                           
+│   ├── app.css                       # 메인 css 파일
 │   └── images/
-│       └── main_top_banner.png             # 배너 사진
-├── images/                                 # README PNG
+│       └── main_top_banner.png       # 배너 사진
+│
+├── images/                           # README 사진
 │   ├── Gani.png
 │   ├── Rani.png
 │   ├── Rogi.png
-│   └── Tayo.png
+│   ├── Tayo.png
+│   └── ERD_images.png
 │
-├── pages/
-│   ├── 01_Market_Price.py                  # 1PAGE
-│   └── 02_My_Car.py                        # 2PAGE
+├── pages/  
+│   ├── 01_Market_Price.py            # 1페이지
+│   └── 02_My_Car.py                  # 2페이지
 │
 └── src/
-    ├── car_repository.py                   # MySQL에서 데이터를 가져오는 메소드 모음
-    ├── data_processor.py                   # DB에서 받은 데이터를 화면 출력용으로 가공하는 메소드 모음
-    ├── utils.py                            # # Streamlit 화면 출력 관련 공통 메소드 모음
+    ├── car_repository.py             # MySQL에서 데이터를 가져오는 메소드 모음
+    ├── data_processor.py             # DB에서 받은 데이터를 화면 출력용으로 가공하는 함수 모음
+    ├── utils.py                      # Streamlit 화면 출력 관련 공통 함수 모음
     ├── __init__.py
     └── csv/
-        ├── DB_init.py                      # DB구성 + CSV적재용 파일
-        └── usedcar_info.csv                # 차량 데이터 csv
-
+        ├── usedcar_info.csv          # 전체 차량 데이터셋 csv
+        └── DB_init.py                # DB 제작 + CSV파일 적재용 파일 (1회 구동)
+```
 ### 💪🏻 Tech Stack
 <table align="center">
   <tr>
@@ -100,7 +107,6 @@ SKN31-1st-4Team/
       <img src="https://img.shields.io/badge/Python-4B8BBE?style=for-the-badge&logo=Python&logoColor=white" alt="Python"/>
       <img src="https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=Jupyter&logoColor=white" alt="Jupyter"/>
       <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=Pandas&logoColor=white" alt="Pandas"/>
-      <img src="https://img.shields.io/badge/Numpy-4D77CF?style=for-the-badge&logo=numpy&logoColor=white" alt="numpy"/>
     </td>
     <td align="center" width="220">
       <strong>Data</strong><br/><br/>
@@ -111,14 +117,19 @@ SKN31-1st-4Team/
 </table>
 
 ### ERD
->...
+<td align="center" width="190px"><img src="./images/ERD_images.png" width="350" style="object-fit: contain; aspect-ratio: 1/1;"></td>
 
 
 
 ### 데이터 출처 및 활용 현황
 
-| 출처 | Table Name | 링크 |
-| :--- | :--- | :--- |
+Encar   중고차 실매물 시세 정보 (usedcar_info.csv)\
+전국자동차매매사업조합연합회    자동차 매매업계 공인 시세 정보 (usedcar_info.csv)\
+**약 3000 여대**
+
+**활용현황:** \
+민간·공공 중고차 데이터를 결합하여 브랜드·모델별 \
+최적 시세 산출 및 사고 이력을 반영한 가치 평가 모델 구축에 활용함.
 
 ---
 
