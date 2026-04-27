@@ -1,4 +1,4 @@
-# "합리적인 중고차 구매를 위한 가격 분석 시스템"
+# 📚대제목 / 프로젝트 주제
 
 ## ⭐️ 팀 구성
 <div align="center">
@@ -46,7 +46,7 @@
  - [팀원 회고](#팀원-회고)
 ---
 ## 개요
-> "중고차 시장 데이터를 수집·분석하여 차량의 평균 시세, 가격 범위, 자차 견적을 제공하고, 사용자가 합리적인 가격으로 거래할 수 있도록 돕는 데이터 기반 플랫폼"
+> ..
 ---
 ## 사용법
 
@@ -57,39 +57,35 @@
 
 
 ---
-##  GitHub 폴더 구조
-```bash
+## 📁 GitHub 폴더 구조
 SKN31-1st-4Team/
-├──  README.md
-├──  main.py
-├──  requirement.txt
+├── README.md
+├── main.py                                 # main STREAMLIT실행파일
+├── requirement.txt                         # 구성 써드파티 모듈 파일
+├── .gitignore
 │
-├──  assets/
-│   ├──  app.css
-│   ├──  style.css
-│   ├──  images/
-│   │   └──  dummy.png
-│   └──  pages/
-│       ├──  01_Market_Price.py
-│       └──  02_My_Car.py
+├── assets/
+│   ├── app.css                           
+│   └── images/
+│       └── main_top_banner.png             # 배너 사진
+├── images/                                 # README PNG
+│   ├── Gani.png
+│   ├── Rani.png
+│   ├── Rogi.png
+│   └── Tayo.png
 │
-├──  images/
-│   ├──  Gani.png
-│   ├──  Rani.png
-│   ├──  Rogi.png
-│   └──  Tayo.png
+├── pages/
+│   ├── 01_Market_Price.py                  # 1PAGE
+│   └── 02_My_Car.py                        # 2PAGE
 │
-└──  src/
-    ├──  data_processor.py
-    ├──  init.py
-    ├──  utils.py
-    └──  csv/
-        ├──  carku_cars_fixed.csv
-        └──  encar_cars_v2.csv
-
-
-
-```
+└── src/
+    ├── car_repository.py                   # MySQL에서 데이터를 가져오는 메소드 모음
+    ├── data_processor.py                   # DB에서 받은 데이터를 화면 출력용으로 가공하는 메소드 모음
+    ├── utils.py                            # # Streamlit 화면 출력 관련 공통 메소드 모음
+    ├── __init__.py
+    └── csv/
+        ├── DB_init.py                      # DB구성 + CSV적재용 파일
+        └── usedcar_info.csv                # 차량 데이터 csv
 
 ### 💪🏻 Tech Stack
 <table align="center">
