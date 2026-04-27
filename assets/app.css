@@ -134,13 +134,6 @@ div[data-testid="stButton"] > button:hover {
     border: 1px solid #3d4470 !important;
 }
 
-/*상단 메뉴*/
-.nav-container { display: flex; gap: 20px; border-bottom: 2px solid #eee; }
-.nav-item { text-decoration: none; color: black; padding: 10px; position: relative; }
-.nav-item:hover { color:rgb(255, 75, 75); }
-.active { color: rgb(255, 75, 75); font-weight: bold; border-bottom: 5px solid rgb(255, 75, 75) }
-.nav-container > a { text-decoration-line: none; }
-
 /* 메인 화면 메뉴카드 */
 .menu-card {
     background: white;
