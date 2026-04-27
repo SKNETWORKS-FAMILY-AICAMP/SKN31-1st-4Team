@@ -1,11 +1,11 @@
 # DB_init.py 
 # 최초 1회만 실행 / DB 생성 + 테이블 생성 + CSV 데이터 적재
 
-import mysql.connector
+import pymysql.connections as pmsc
 import pandas as pd
 
 # ── DB 접속 정보 ──────────────────────────────────────────────
-conn = mysql.connector.connect(
+conn = pmsc.Connection(
     host=" ", # IP(host) 입력
     port=" ", # port번호 입력
     user=" ", # username 입력
