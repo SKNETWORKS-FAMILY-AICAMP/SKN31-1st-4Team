@@ -3,18 +3,20 @@
 
 import pymysql
 import streamlit as st
+import os 
+from dotenv import load_dotenv
 
 # ── 공통 접속 정보 ────────────────────────────────────────────
-# config 정보 딕셔너리로 묶어서 호출 편리성 강화
+load_dotenv()
+
 DB_CONFIG = {
-    "host":     "192.168.0.20", # IP(host) 입력
-    "user":     "playdata", # username 입력
-    "port": 3306,
-    "password": "1111", # MySQL 비밀번호 입력 
-    "database": "used_car_db",
-    "charset":  "utf8mb4"
+    "host": os.getenv("host"),
+    "user": os.getenv("user"),
+    "port": int(os.getenv("port")),
+    "password": os.getenv("password"), 
+    "database": os.getenv("database")
 }
-# ─────────────────────────────────────────────────────────────
+
 # [시세 조회 페이지] 차량 목록 조회
 # ─────────────────────────────────────────────────────────────
 def get_cars(brand_list, fuel_list, accident, price_min, price_max,
