@@ -44,17 +44,20 @@ def render_car_cards(cars, columns=3):                                       # c
                     btn_col1, btn_col2 = st.columns([6,1])
 
                     with btn_col2:
-                        if st.button(
-                            "❤️" if liked else "🤍",
-                            key=f"like_{car_id}_{i}_{idx}_{st.session_state.get('page',0)}"
-                        ):
-                            if liked:
-                                st.session_state["liked_cars"].remove(car_id)
-                                st.session_state["liked_cars_data"].pop(car_id, None)
-                            else:
-                                st.session_state["liked_cars"].add(car_id)
-                                st.session_state["liked_cars_data"][car_id] = car
-                            st.rerun()
+                        like_container = st.container()
+
+                        with like_container:
+                            if st.button(
+                                "❤️" if liked else "🤍",
+                                key=f"like_{car_id}_{i}_{idx}_{st.session_state.get('page',0)}"
+                            ):
+                                if liked:
+                                    st.session_state["liked_cars"].remove(car_id)
+                                    st.session_state["liked_cars_data"].pop(car_id, None)
+                                else:
+                                    st.session_state["liked_cars"].add(car_id)
+                                    st.session_state["liked_cars_data"][car_id] = car
+                                st.rerun()
 
                     # 🚗 카드
                     st.markdown(build_card_html(car), unsafe_allow_html=True)
@@ -85,9 +88,9 @@ def render_pagination(total, page_size, key="page"):                         # t
     col_prev, col_info, col_next = st.columns([1, 3, 1])                     # 페이지 변경 컬럼 / 이전버튼(1size)-현재페이지 인포(3size)-다음버튼(1size) 으로 설정
 
     with col_prev:
-        if st.button("← 이전", disabled=(current == 0), key=f"{key}_prev"):   # 이전 버튼 설정: 현재 페이지가 0(min_page)일 시 이전버튼 비활성화
+        if st.button("← 이전", type="primary", disabled=(current == 0), key=f"{key}_prev"):   # 이전 버튼 설정: 현재 페이지가 0(min_page)일 시 이전버튼 비활성화
             st.session_state[key] -= 1                                       # 버튼 클릭시: 현재페이지에서 -1페이지
-            st.rerun()                                                       # 화면 처음부터 재실행 (버튼클릭으로는 streamlit 재실행이 되지 않아 rerun으로 재실행 시켜줌.)
+            st.rerun()                                                       # 화면 처음부터 재실행 (버튼클릭으로는 streamlit 재실행이 되지 않아 rerun으로 재실행 시켜줌.)  
 
     with col_info:      
         start = current * page_size + 1                                      # 현재 페이지 조회 건수 시작번호 ex) 0페이지(초기화면)이면 0 * 9 + 1 = 1
@@ -101,7 +104,7 @@ def render_pagination(total, page_size, key="page"):                         # t
         )
 
     with col_next:
-        if st.button("다음 →", disabled=(current >= total_pages - 1), key=f"{key}_next"): # 다음 버튼 설정: 현재 페이지가 9(max_page)면 다음버튼 비활성화
+        if st.button("다음 →", type="primary", disabled=(current >= total_pages - 1), key=f"{key}_next"): # 다음 버튼 설정: 현재 페이지가 9(max_page)면 다음버튼 비활성화
             st.session_state[key] += 1                                        # 버튼 클릭 시: 현재페이지에서 +1 페이지
             st.rerun()                                                  
 

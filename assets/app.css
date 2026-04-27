@@ -148,28 +148,28 @@ div[data-testid="stButton"] > button:hover {
 .menu-title { font-size: 16px; font-weight: 600; color: #1a1a1a; margin: 0 0 6px; }
 .menu-desc { font-size: 13px; color: #666; line-height: 1.6; margin: 0; }
 
-/* ❤️ 하트 버튼 - 마지막 컬럼 버튼 타겟 */
-div[data-testid="stHorizontalBlock"] > div:last-child button {
+/* ❤️ 하트 버튼만 */
+div[data-testid="stButton"] > button[kind="secondary"] {
     border: none !important;
     background: transparent !important;
     box-shadow: none !important;
-    font-size: 20px;
     padding: 0 !important;
+    font-size: 20px;
 }
 
-/* hover 효과 */
-div[data-testid="stHorizontalBlock"] > div:last-child button:hover {
+/* hover */
+div[data-testid="stButton"] > button[kind="secondary"]:hover {
     background: transparent !important;
     transform: scale(1.15);
 }
 
-/* 클릭 효과 */
-div[data-testid="stHorizontalBlock"] > div:last-child button:active {
+/* 클릭 */
+div[data-testid="stButton"] > button[kind="secondary"]:active {
     transform: scale(0.95);
 }
 
-/* 포커스 테두리 제거 */
-div[data-testid="stHorizontalBlock"] > div:last-child button:focus {
+/* 포커스 제거 */
+div[data-testid="stButton"] > button[kind="secondary"]:focus {
     outline: none !important;
     box-shadow: none !important;
 }

@@ -138,4 +138,3 @@ def build_filter_summary(brand_list, fuel_list, accident,
 
     body = " &nbsp;&middot;&nbsp; ".join(parts)
     return f"<div class='filter-summary'>🔎 적용 필터 &nbsp;|&nbsp; {body}</div>"
-
