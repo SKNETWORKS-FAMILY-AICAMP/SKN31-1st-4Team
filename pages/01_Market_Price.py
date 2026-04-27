@@ -23,6 +23,19 @@ all_fuels  = get_fuel_types()
 
 # ── 사이드바 필터 ─────────────────────────────────────────────
 with st.sidebar:
+    # 필터 변경 시 페이지 0으로 리셋
+    if st.button("🔄 필터 초기화", use_container_width=True):
+        for brand in all_brands:
+            st.session_state[f"brand_{brand}"] = False
+        for fuel in all_fuels:
+            st.session_state[f"fuel_{fuel}"] = False
+        st.session_state["accident"] = "전체"
+        st.session_state["price"] = (0, 10000)
+        st.session_state["mileage"] = 200000 
+        st.session_state["year"] = (2011, 2025)
+        st.session_state["page"] = 0
+        st.rerun()
+    
     st.markdown("<div class='section-header'>🏭 제조사</div>", unsafe_allow_html=True)
     selected_brands = []
     for brand in all_brands:
@@ -38,32 +51,30 @@ with st.sidebar:
     st.markdown("<div class='section-header'>💰 시세 범위</div>", unsafe_allow_html=True)
     price_range = st.slider(
         "시세(만원)", min_value=0, max_value=10000,
-        value=(0, 10000), step=100, label_visibility="collapsed"
+        value=(0, 10000), step=100, label_visibility="collapsed",
+        key = "price"
     )
 
     st.markdown("<div class='section-header'>🛣️ 최대 주행거리</div>", unsafe_allow_html=True)
     mileage_max = st.slider(
         "주행거리(km)", min_value=0, max_value=200000,
-        value=200000, step=5000, label_visibility="collapsed"
+        value=200000, step=5000, label_visibility="collapsed",
+        key = "mileage"
     )
 
     st.markdown("<div class='section-header'>📅 연식</div>", unsafe_allow_html=True)
     year_range = st.slider(
         "연식", min_value=2011, max_value=2025,
-        value=(2011, 2025), step=1, label_visibility="collapsed"
+        value=(2011, 2025), step=1, label_visibility="collapsed",
+        key= "year"
     )
 
     st.markdown("<div class='section-header'>🔧 사고 여부</div>", unsafe_allow_html=True)
     accident = st.radio(
         "사고 여부", ["전체", "사고 X", "사고 O"],
-        horizontal=True, label_visibility="collapsed"
+        horizontal=True, label_visibility="collapsed",
+        key="accident"
     )
-
-    # 필터 변경 시 페이지 0으로 리셋
-    if st.button("🔄 필터 초기화", use_container_width=True):
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.rerun()
 
 # ── 공통 필터 파라미터 ────────────────────────────────────────
 filter_params = dict(
