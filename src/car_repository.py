@@ -7,9 +7,9 @@ import streamlit as st
 # ── 공통 접속 정보 ────────────────────────────────────────────
 # config 정보 딕셔너리로 묶어서 호출 편리성 강화
 DB_CONFIG = {
-    "host":     " ", # IP(host) 입력
-    "user":     " ", # username 입력
-    "password": " ", # MySQL 비밀번호 입력 
+    "host":     "192.168.0.30", # IP(host) 입력
+    "user":     "playdata", # username 입력
+    "password": "1111", # MySQL 비밀번호 입력 
     "database": "used_car_db",
     "charset":  "utf8mb4"
 }
