@@ -33,9 +33,14 @@ with st.sidebar:
 
 # ── 메인 영역 ─────────────────────────────────────────────────
 if search_btn and model_keyword:
-    # DB 조회
-    similar_cars = search_my_car(selected_brand, model_keyword)
-    stats        = get_price_stats(selected_brand, model_keyword)
+    # db 조회
+    st.session_state["similar_cars"] = search_my_car(selected_brand, model_keyword)
+    st.session_state["stats"] = get_price_stats(selected_brand, model_keyword)
+    st.session_state["searched"] = True
+    
+if st.session_state.get("searched"):
+    similar_cars = st.session_state.get("similar_cars", [])
+    stats        = st.session_state.get("stats", {})
 
     if not similar_cars:
         st.warning(f"'{selected_brand} {model_keyword}'에 해당하는 매물이 없습니다. 다른 키워드로 검색해보세요.")

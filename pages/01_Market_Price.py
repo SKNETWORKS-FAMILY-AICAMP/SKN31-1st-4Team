@@ -4,7 +4,7 @@
 import streamlit as st
 
 from src.car_repository import get_cars, count_cars, get_brands, get_fuel_types, get_summary_stats
-from src.data_processor  import build_filter_summary, cars_to_dataframe
+from src.data_processor  import build_filter_summary, cars_to_dataframe, build_card_html
 from src.utils           import load_css, render_car_cards, render_pagination, render_metrics, fmt_price
 
 # ── 페이지 설정 ───────────────────────────────────────────────
@@ -136,9 +136,46 @@ cars = get_cars(
 
 # 현재 페이지 슬라이싱 (DB 쪽에 LIMIT/OFFSET 없이 Python 슬라이싱)
 paged_cars = cars[page * PAGE_SIZE: (page + 1) * PAGE_SIZE]
+render_car_cards(paged_cars, columns=3)
 
 # ── 카드 렌더링 ───────────────────────────────────────────────
-render_car_cards(paged_cars, columns=3)
+def render_car_cards(cars, columns=3):
+    if not cars:
+        st.info("🚫 조건에 맞는 매물이 없습니다.")
+        return
+
+    # 찜 리스트 초기화
+    if "liked_cars" not in st.session_state:
+        st.session_state["liked_cars"] = set()
+
+    for i in range(0, len(cars), columns):
+        row = cars[i: i + columns]
+        cols = st.columns(columns)
+
+        for idx, (col, car) in enumerate(zip(cols, row)):
+            with col:
+                car_id = f"{car.get('brand')}_{car.get('model')}_{car.get('year')}_{car.get('mileage')}"
+
+                liked = car_id in st.session_state["liked_cars"]
+
+                # ❤️ 버튼
+                if st.button(
+                    "❤️" if liked else "🤍",
+                    key=f"like_{car_id}_{i}_{idx}",
+                    use_container_width=True
+                ):
+                    if liked:
+                        st.session_state["liked_cars"].remove(car_id)
+                    else:
+                        st.session_state["liked_cars"].add(car_id)
+                        # 상세 데이터도 저장
+                        st.session_state.setdefault("liked_cars_data", {})
+                        st.session_state["liked_cars_data"][car_id] = car
+                    st.rerun()
+
+                # 카드 출력
+                st.markdown(build_card_html(car), unsafe_allow_html=True)
+
 
 # ── 테이블 뷰 (토글) ──────────────────────────────────────────
 with st.expander("📋 표로 보기"):

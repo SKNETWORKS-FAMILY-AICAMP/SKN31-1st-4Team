@@ -21,13 +21,43 @@ def render_car_cards(cars, columns=3):                                       # c
         st.info("🚫 조건에 맞는 매물이 없습니다.")                                  # 필터 설정 시 cars반환이 없다면 << 출력
         return
 
-    for i in range(0, len(cars), columns):
-        row = cars[i: i + columns]                                           # row(행)에 3개씩 표시 cars[0],[1],[2]
-        cols = st.columns(columns)
-        for col, car in zip(cols, row):
-            with col:
-                st.markdown(build_card_html(car), unsafe_allow_html=True)
+    if "liked_cars" not in st.session_state:
+        st.session_state["liked_cars"] = set()
+        st.session_state["liked_cars_data"] = {}
 
+    for i in range(0, len(cars), columns):
+        row = cars[i: i + columns]
+        cols = st.columns(columns)
+
+        for idx, (col, car) in enumerate(zip(cols, row)):
+            with col:
+                if not car:
+                    continue
+
+                car_id = f"{car.get('brand')}_{car.get('model')}_{car.get('year')}_{car.get('mileage')}"
+                liked = car_id in st.session_state["liked_cars"]
+
+                # 👇 컨테이너로 묶기
+                with st.container():
+
+                    # ❤️ 버튼 (상단)
+                    btn_col1, btn_col2 = st.columns([6,1])
+
+                    with btn_col2:
+                        if st.button(
+                            "❤️" if liked else "🤍",
+                            key=f"like_{car_id}_{i}_{idx}_{st.session_state.get('page',0)}"
+                        ):
+                            if liked:
+                                st.session_state["liked_cars"].remove(car_id)
+                                st.session_state["liked_cars_data"].pop(car_id, None)
+                            else:
+                                st.session_state["liked_cars"].add(car_id)
+                                st.session_state["liked_cars_data"][car_id] = car
+                            st.rerun()
+
+                    # 🚗 카드
+                    st.markdown(build_card_html(car), unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────
 # 지표 한 줄 표시
