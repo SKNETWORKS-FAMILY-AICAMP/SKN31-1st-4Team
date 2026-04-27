@@ -3,13 +3,17 @@
 
 import pymysql
 import pandas as pd
+import os 
+from dotenv import load_dotenv
 
 # ── DB 접속 정보 ──────────────────────────────────────────────
+load_dotenv()
+
 conn = pymysql.connect(
-    host="192.168.0.20", # IP(host) 입력
-    port=3306, # port번호 입력
-    user="playdata", # username 입력
-    password="1111", # MySQL 비밀번호 입력
+    host=os.getenv("host"), # IP(host) 입력
+    port=os.getenv("port"), # port번호 입력
+    user=os.getenv("user"), # username 입력
+    password=os.getenv("password"), # MySQL 비밀번호 입력
     charset="utf8mb4" # 이모지 지원 UTF-8 Most Bytes 4로 설정
 )
 cursor = conn.cursor()
