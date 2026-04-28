@@ -63,6 +63,10 @@ html, body, [class*="css"] {
     margin-bottom: 1rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     transition: box-shadow 0.2s;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .result-card:hover {
     box-shadow: 0 6px 20px rgba(45,50,80,0.13);
