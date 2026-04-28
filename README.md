@@ -92,7 +92,11 @@ SKN31-1st-4Team/
 │   ├── Rani.png
 │   ├── Rogi.png
 │   ├── Tayo.png
-│   └── ERD_images.png
+│   ├── ERD_images.png
+│   ├── first.png
+│   ├── second.png
+│   ├── third.png 
+│   └── forth.png
 │
 ├── pages/  
 │   ├── 01_Market_Price.py            # 1페이지
