@@ -106,7 +106,6 @@ SKN31-1st-4Team/
     <td align="center" width="220">
       <strong>Backend</strong><br/><br/>
       <img src="https://img.shields.io/badge/Python-4B8BBE?style=for-the-badge&logo=Python&logoColor=white" alt="Python"/>
-      <img src="https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=Jupyter&logoColor=white" alt="Jupyter"/>
       <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=Pandas&logoColor=white" alt="Pandas"/>
     </td>
     <td align="center" width="220">
@@ -214,4 +213,13 @@ Thanks to 4Team.
 다행히 뭐든 다 해보겠다는 열정이 넘치는 팀원들 덕분에 두루뭉실 했던 계획에도 길이 그려지기 시작했다.
 수업 내용을 기반으로 다같이 으쌰으쌰 길을 따라 열심히 달려 모두의 힘으로 
 이번 프로젝트가 성공적으로 마무리 될 수 있었다고 생각한다.
+```
+### 박하린
+```
+새로 배운 언어를 단위 프로젝트를 진행하며 적용해 볼 수 있는 기회가 주어져 좋았습니다. 
+어떻게 활용하나 막연했던 개념들이 머릿속에 정립되는 느낌이었습니다. 
+조원들과 협업하면서 부족한 부분들도 많이 깨닫고 배우게 되었고, 
+짧은 기간에도 조원들의 좋은 아이디어와 추진력으로 수월하게 진행하게 된 것 같아 만족스러운 결과물이 나온 거 같습니다. 
+앞으로 2개 단위 프로젝트와 파이널 프로젝트가 남아있는 것으로 알고 있는데, 
+이번처럼 역할을 분담하여 잘 협업하는 것이 중요한 거 같네요! 잘해보겠습니다😉
 ```

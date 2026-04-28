@@ -180,6 +180,8 @@ div[data-testid="stButton"] > button[kind="secondary"] {
     box-shadow: none !important;
     padding: 0 !important;
     font-size: 20px;
+    margin-bottom: -10px !important;
+    margin-top: 10px !important;
 }
 
 /* hover */
