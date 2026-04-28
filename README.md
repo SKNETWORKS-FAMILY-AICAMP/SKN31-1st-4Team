@@ -54,7 +54,7 @@
 ---
 ## 사용법
 terminal에서 실행 후
->pip install ./requirement.txt
+>pip install -r requirement.txt
 
 실행환경에서 실행
 > streamlit run main.py 실행
