@@ -41,6 +41,8 @@
  - [사용법](#사용법)
  - [Github 폴더 구조](#-GitHub-폴더-구조)
  - [Tech Stack](#-Tech-Stack)
+ - [WBS](#WBS)
+ - [요구사항 명세서](#요구사항-명세서)
  - [ERD](#ERD)
  - [Method List](#Method-List)
  - [데이터 출처 및 활용 현황](#데이터-출처-및-활용-현황)
