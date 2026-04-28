@@ -101,7 +101,9 @@ SKN31-1st-4Team/
 │
 ├── pages/  
 │   ├── 01_Market_Price.py            # 1페이지
-│   └── 02_My_Car.py                  # 2페이지
+│   ├── 02_My_Car.py                  # 2페이지
+│   ├── 03_Like_car.py                # 3페이지
+│   └── home.py                       # 홈 페이지
 │
 └── src/
     ├── car_repository.py             # MySQL에서 데이터를 가져오는 메소드 모음
