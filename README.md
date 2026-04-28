@@ -21,7 +21,7 @@
   </tr>
   <tr>
     <td align="center"><sub><b>PM</br>METHOD ENGINEERING</br>HTML</b></sub></td>
-    <td align="center"><sub><b>STREAMLIT</br>DATABASE</br>HTML</b></sub></td>
+    <td align="center"><sub><b>STREAMLIT</br>DATABASE</br>HTML & CSS</b></sub></td>
     <td align="center"><sub><b>DATA CRAWLING</br>DATABASE</b></sub></td>
     <td align="center"><sub><b>DATA CRAWLING</br>STREAMLIT</b></sub></td>
   </tr>
@@ -47,6 +47,7 @@
  - [팀원 회고](#팀원-회고)
 ---
 ## 개요
+### 🚗니차내차
 > <font size="3">중고차 시장 데이터를 수집·분석하여 차량의 평균 시세, 가격 범위, 자차 견적을 제공하고, \
 사용자가 합리적인 가격으로 거래할 수 있도록 돕는 데이터 기반 플랫폼</font>
 
@@ -118,6 +119,7 @@ SKN31-1st-4Team/
       <strong>Frontend</strong><br/><br/>
       <img src="https://img.shields.io/badge/HTML5-F06529?style=for-the-badge&logo=HTML5&logoColor=61DAFB" alt="HTML5"/>
       <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white" alt="Streamlit"/>
+      <img src="https://img.shields.io/badge/CSS3-FFC0CB?style=for-the-badge&logo=CSS&logoColor=264de4" alt="CSS"/>
     </td>
     <td align="center" width="220">
       <strong>Backend</strong><br/><br/>
