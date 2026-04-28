@@ -24,7 +24,7 @@ all_fuels  = get_fuel_types()
 # ── 사이드바 필터 ─────────────────────────────────────────────
 with st.sidebar:
     # 필터 변경 시 페이지 0으로 리셋
-    if st.button("🔄 필터 초기화",type="primary", use_container_width=True):
+    if st.button("🔄 필터 초기화",type="secondary", use_container_width=True):
         for brand in all_brands:
             st.session_state[f"brand_{brand}"] = False
         for fuel in all_fuels:

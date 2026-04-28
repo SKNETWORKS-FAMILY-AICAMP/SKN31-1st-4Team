@@ -21,9 +21,9 @@ st.markdown("""
     </div>
   </a>
             
-  <a href="/My_Car" target="_self" style="text-decoration: none;">
+  <a href="/Like_car" target="_self" style="text-decoration: none;">
     <div class="menu-card">
-      <div class="menu-icon" style="background: #E1F5EE;">🚗</div>
+      <div class="menu-icon" style="background: #E1F5EE;">❤️</div>
       <p class="menu-title">찜 목록 조회</p>
       <p class="menu-desc">저장한 중고차의 목록을<br>저장한 순서대로 보여줍니다</p>
     </div>
